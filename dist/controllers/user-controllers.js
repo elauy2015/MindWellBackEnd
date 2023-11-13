@@ -27,7 +27,7 @@ export const userSignUp = async (req, res, next) => {
         const user = new User({ name, email, image, password: hashedPassword });
         await user.save();
         //create cookie
-        createCookie(res, user);
+        createCookie(res, user, req);
         //reponse
         return res
             .status(200)
@@ -49,7 +49,7 @@ export const userLogin = async (req, res, next) => {
         if (!isPasswordValid)
             return res.status(403).send("Incorrect password");
         //create cookie
-        createCookie(res, user);
+        createCookie(res, user, req);
         return res
             .status(200)
             .json({ message: "Welcome", name: user.name, email: user.email, image: user.image });

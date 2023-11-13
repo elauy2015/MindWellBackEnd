@@ -41,7 +41,7 @@ export const userSignUp = async (
     await user.save();
 
     //create cookie
-    createCookie(res, user);
+    createCookie(res, user, req);
 
     //reponse
     return res
@@ -69,7 +69,7 @@ export const userLogin = async (
     if (!isPasswordValid) return res.status(403).send("Incorrect password");
 
     //create cookie
-    createCookie(res, user);
+    createCookie(res, user, req);
 
     return res
       .status(200)

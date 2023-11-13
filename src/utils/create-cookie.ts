@@ -1,8 +1,16 @@
 import { COOKIE_NAME } from "../constants/common.js";
 import { createToken } from "./token-manager.js";
-import { Response } from "express";
+import { Response, Request } from "express";
 
-export const createCookie = (res: Response, user) => {
+export const createCookie = (res: Response, user, req: Request) => {
+
+  res.set("Access-Control-Allow-Origin", req.headers.origin);
+  res.set("Access-Control-Allow-Credentials", "true");
+  res.set(
+    "Access-Control-Expose-Headers",
+    "date, etag, access-control-allow-origin, access-control-allow-credentials"
+  );
+  
   res.clearCookie(COOKIE_NAME, {
     path: "/",
     httpOnly: true,
@@ -24,4 +32,3 @@ export const createCookie = (res: Response, user) => {
     sameSite: "none",
   });
 };
-
