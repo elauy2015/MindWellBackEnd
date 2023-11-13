@@ -7,8 +7,10 @@ import cors from 'cors';
 config();
 const app = express();
 //middlewares
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
-app.use(cors({ origin: "https://mind-well.vercel.app", credentials: true }));
+app.use(cors({
+    origin: process.env.ORIGIN_URL,
+    credentials: true,
+}));
 app.use(express.json());
 app.use(cookieParser(process.env.COOKIE_SECRET));
 //Eliminar en produccion

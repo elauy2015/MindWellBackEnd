@@ -14,7 +14,7 @@ export const generateChatCompletion = async (
     if (!user)
       return res.status(401).send("User not found or Token malfuntioned");
 
-    const chats = user.chats.slice(-4).map(({ role, content }) => ({
+    const chats = user.chats.map(({ role, content }) => ({
       role,
       content,
     })) as ChatCompletionRequestMessage[];

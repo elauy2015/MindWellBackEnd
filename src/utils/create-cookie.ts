@@ -5,7 +5,7 @@ import { Response } from "express";
 export const createCookie = (res: Response, user) => {
   res.clearCookie(COOKIE_NAME, {
     path: "/",
-    domain: "localhost",
+    domain: process.env.ORIGIN_DOMAIN,
     httpOnly: true,
     signed: true,
   });
@@ -14,7 +14,7 @@ export const createCookie = (res: Response, user) => {
   expires.setDate(expires.getDate() + 7);
   res.cookie(COOKIE_NAME, token, {
     path: "/",
-    domain: "localhost",
+    domain: process.env.ORIGIN_DOMAIN,
     expires,
     httpOnly: true,
     signed: true,

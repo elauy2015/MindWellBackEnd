@@ -10,7 +10,7 @@ const app = express();
 
 //middlewares
 app.use(cors({
-    origin: ["http://localhost:3000", "https://mind-well-elauy2015.vercel.app"],
+    origin: process.env.ORIGIN_URL,
     credentials: true,
   }));
 app.use(express.json());
