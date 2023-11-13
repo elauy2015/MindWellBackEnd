@@ -1,7 +1,9 @@
 import mongoose from "mongoose";
 import { randomUUID } from "crypto";
+import ChatInterface from "../types/Chat.js";
+import UserInterface from "../types/User.js";
 
-const chatSchema = new mongoose.Schema({
+const chatSchema = new mongoose.Schema<ChatInterface>({
   id: {
     type: String,
     default: randomUUID(),
@@ -15,7 +17,7 @@ const chatSchema = new mongoose.Schema({
     require: true,
   },
 });
-const userSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema<UserInterface>({
   name: {
     type: String,
     required: true,

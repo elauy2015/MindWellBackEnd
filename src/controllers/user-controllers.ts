@@ -3,6 +3,7 @@ import User from "../models/User.js";
 import { hash, compare } from "bcrypt";
 import { createCookie } from "../utils/create-cookie.js";
 import { COOKIE_NAME } from "../constants/common.js";
+import UserInterface from "../types/User.js";
 
 export const getAllUsers = async (
   req: Request,
@@ -29,7 +30,7 @@ export const userSignUp = async (
   next: NextFunction
 ) => {
   try {
-    const { name, email, image, password } = req.body;
+    const { name, email, image = null, password }:UserInterface = req.body;
     //verify if user exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {

@@ -17,7 +17,7 @@ export const getAllUsers = async (req, res, next) => {
 };
 export const userSignUp = async (req, res, next) => {
     try {
-        const { name, email, image, password } = req.body;
+        const { name, email, image = null, password } = req.body;
         //verify if user exists
         const existingUser = await User.findOne({ email });
         if (existingUser) {
