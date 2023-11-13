@@ -8,6 +8,8 @@ export const createCookie = (res: Response, user) => {
     domain: process.env.ORIGIN_DOMAIN,
     httpOnly: true,
     signed: true,
+    secure: true,
+    sameSite: "none",
   });
   const token = createToken(user._id.toString(), user.email, "7d");
   const expires = new Date();
@@ -18,5 +20,7 @@ export const createCookie = (res: Response, user) => {
     expires,
     httpOnly: true,
     signed: true,
+    secure: true,
+    sameSite: "none",
   });
 };
