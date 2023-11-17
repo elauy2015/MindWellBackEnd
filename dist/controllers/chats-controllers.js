@@ -5,8 +5,34 @@ export const generateChatCompletion = async (req, res, next) => {
     const { message } = req.body;
     try {
         const user = await User.findById(res.locals.jwtData.id);
+        const currentDate = new Date();
+        const userChatsPerDay = user?.chatsPerDay;
         if (!user)
-            return res.status(401).send("User not found or Token malfuntioned");
+            return res.status(401).send("User not found or Token malfunctioned");
+        if (user?.chatsPerDay?.numberOfChats > 48) {
+            if (userChatsPerDay?.endDay &&
+                new Date(userChatsPerDay.endDay) <= currentDate) {
+                user.chatsPerDay = {
+                    endDay: new Date(currentDate.getTime() + 24 * 60 * 60 * 1000),
+                    numberOfChats: 1,
+                };
+            }
+            else {
+                return res.status(201).send("Maximum chats per day recharted");
+            }
+        }
+        else if (userChatsPerDay?.endDay) {
+            user.chatsPerDay = {
+                endDay: userChatsPerDay.endDay,
+                numberOfChats: (userChatsPerDay.numberOfChats ?? 0) + 1,
+            };
+        }
+        else {
+            user.chatsPerDay = {
+                endDay: new Date(currentDate.getTime() + 24 * 60 * 60 * 1000),
+                numberOfChats: 1,
+            };
+        }
         const chats = user.chats.map(({ role, content }) => ({
             role,
             content,
@@ -19,8 +45,6 @@ export const generateChatCompletion = async (req, res, next) => {
             model: "gpt-3.5-turbo",
             messages: chats,
         });
-        const numTokensUsed = chatResponse.data.usage.total_tokens;
-        console.log(`Número total de tokens utilizados: ${numTokensUsed}`);
         user.chats.push(chatResponse.data.choices[0].message);
         await user.save();
         return res.status(200).json({ chats: user.chats });
@@ -35,7 +59,7 @@ export const getUserChats = async (req, res, next) => {
         //check if token is valid
         const user = await User.findById(res.locals.jwtData.id);
         if (!user)
-            return res.status(401).send("User not found or Token malfuntioned");
+            return res.status(401).send("User not found or Token malfunctioned");
         if (user._id.toString() !== res.locals.jwtData.id) {
             return res.status(401).send("Permission denied");
         }

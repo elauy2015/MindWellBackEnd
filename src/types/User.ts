@@ -5,6 +5,10 @@ interface UserInterface {
     email: string;
     image?: string;
     password: string;
+    chatsPerDay: {
+      endDay: Date
+      numberOfChats: number
+    }
     chats: Chat[];
   }
 

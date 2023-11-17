@@ -31,6 +31,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    chatsPerDay: {
+        type: Object,
+        required: true,
+    },
     chats: [chatSchema],
 });
 export default mongoose.model("User", userSchema);
