@@ -5,7 +5,7 @@ interface UserInterface {
     email: string;
     image?: string;
     password: string;
-    chatsPerDay: {
+    chatsPerDay?: {
       endDay: Date
       numberOfChats: number
     }
