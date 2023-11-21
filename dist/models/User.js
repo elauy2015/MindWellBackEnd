@@ -33,7 +33,6 @@ const userSchema = new mongoose.Schema({
     },
     chatsPerDay: {
         type: Object,
-        required: true,
     },
     chats: [chatSchema],
 });
